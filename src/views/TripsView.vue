@@ -1,0 +1,16 @@
+// filepath: d:\study programming\visual\bus_carrier\src\views\Flights.vue
+<template>
+  <div>
+    <h1>Рейсы</h1>
+  </div>
+</template>
+
+<script lang="ts">
+export default {
+  name: 'TripsView',
+}
+</script>
+
+<style scoped>
+/* Добавьте стили по необходимости */
+</style>
