@@ -1,12 +1,12 @@
 import type { ISelectedAddress } from './ISelectedAddress'
-import type { IRoute } from './IRoute'
-import type { ICarrier } from './ICarrier'
+import type { Route } from './route'
+import type { ICarrier } from './carrier'
 
 export interface ITrip {
   id: number
   from: ISelectedAddress
   to: ISelectedAddress
-  route: IRoute
+  route: Route
   carrier: ICarrier
   dispatchDate: string
   arrivalDate: string

@@ -1,4 +1,3 @@
-// filepath: d:\study programming\visual\bus_carrier\src\views\Flights.vue
 <template>
   <div>
     <h1>Рейсы</h1>
