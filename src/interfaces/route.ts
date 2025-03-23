@@ -1,6 +1,12 @@
 import type { ICarrier } from './carrier'
 import type { IBaseObject } from './baseObject'
 
+export const periodicity = [
+  { id: 1, name: 'Ежедневно' },
+  { id: 2, name: 'По числам' },
+  { id: 3, name: 'По дням недели' },
+]
+
 //Короткая информация
 export interface IRouteSummary {
   id: number
@@ -72,10 +78,31 @@ export interface IBusStopExisted extends IBaseObject {
   name: string
 }
 
-export interface IRouteScheduleNew extends IBaseObject {}
+export interface IRouteScheduleNew extends IBaseObject {
+  tariff: Tariff
+  startDate: Date
+  endDate: Date
+  periodicity: number
+  departureTimes: Date[]
+  daysOfWeek: number[]
+  startWith: Date
+  interval: number
+  baseSeatingPlan: string
+  seatingType: number
+}
 
 export interface IRouteScheduleExisted extends IBaseObject {
   id: number
+  tariff: Tariff
+  startDate: Date
+  endDate: Date
+  periodicity: number
+  departureTimes: Date[]
+  daysOfWeek: number[]
+  startWith: Date
+  interval: number
+  baseSeatingPlan: string
+  seatingType: number
 }
 
 export interface ITariffNew extends IBaseObject {
