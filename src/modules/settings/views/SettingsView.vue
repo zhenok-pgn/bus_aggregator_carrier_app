@@ -1,8 +1,5 @@
-// filepath: d:\study programming\visual\bus_carrier\src\views\Settings.vue
 <template>
-  <div>
-    <h1>Настройки</h1>
-  </div>
+  <v-container></v-container>
 </template>
 
 <script lang="ts">

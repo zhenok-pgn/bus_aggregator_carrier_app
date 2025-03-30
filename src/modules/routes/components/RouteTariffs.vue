@@ -128,5 +128,11 @@ export default defineComponent({
       } else this.route.tariffs.push(this.curEditTariff)
     },
   },
+
+  unmounted() {
+    // 📌 Очистка данных маршрута
+    //console.log('unmounted')
+    useRouteStore().$dispose()
+  },
 })
 </script>

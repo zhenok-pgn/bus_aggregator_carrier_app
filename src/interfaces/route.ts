@@ -7,6 +7,21 @@ export const periodicity = [
   { id: 3, name: 'По дням недели' },
 ]
 
+export const daysOfWeek = [
+  { id: 1, name: 'Понедельник' },
+  { id: 2, name: 'Вторник' },
+  { id: 3, name: 'Среда' },
+  { id: 4, name: 'Четверг' },
+  { id: 5, name: 'Пятница' },
+  { id: 6, name: 'Суббота' },
+  { id: 7, name: 'Воскресенье' },
+]
+
+export const seatingType = [
+  { id: 1, name: 'Свободная рассадка' },
+  { id: 2, name: 'Есть выбор мест' },
+]
+
 //Короткая информация
 export interface IRouteSummary {
   id: number
@@ -83,7 +98,7 @@ export interface IRouteScheduleNew extends IBaseObject {
   startDate: Date
   endDate: Date
   periodicity: number
-  departureTimes: Date[]
+  departureTimes: string[]
   daysOfWeek: number[]
   startWith: Date
   interval: number
@@ -97,7 +112,7 @@ export interface IRouteScheduleExisted extends IBaseObject {
   startDate: Date
   endDate: Date
   periodicity: number
-  departureTimes: Date[]
+  departureTimes: string[]
   daysOfWeek: number[]
   startWith: Date
   interval: number

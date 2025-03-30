@@ -1,10 +1,10 @@
 <template>
-  <v-btn :to="{ name: 'routes-list' }" color="primary">К списку маршрутов</v-btn>
+  <v-container></v-container>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'AddReturnRouteView',
+  name: 'RouteAddReturnView',
   data() {
     return {
       routeName: '',

@@ -1,8 +1,5 @@
-// filepath: d:\study programming\visual\bus_carrier\src\views\SoldTickets.vue
 <template>
-  <div>
-    <h1>Проданные билеты</h1>
-  </div>
+  <v-container></v-container>
 </template>
 
 <script lang="ts">

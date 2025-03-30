@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h1>Главная</h1>
-  </div>
+  <v-container></v-container>
 </template>
 
 <script lang="ts">
