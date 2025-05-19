@@ -24,28 +24,40 @@
 </template>
 
 <script lang="ts">
+import { busesApi } from '../../api/transportApi'
+import type { IBus } from '../../interfaces/transport'
+
 export default {
   name: 'BusesListView',
   data() {
     return {
       headers: [
-        { title: 'ID', key: 'id' },
-        { title: 'Название', key: 'name' },
-        { title: 'Гос.номер', key: 'description' },
+        { title: 'VIN', key: 'vin' },
+        { title: 'Модель', key: 'model' },
+        { title: 'Гос.номер', key: 'stateNumber' },
         { title: 'Действия', key: 'actions', sortable: false },
       ],
-
-      // Данные таблицы
-      items: [
-        { id: 1, name: 'Маршрут 1', description: 'Москва - СПб' },
-        { id: 2, name: 'Маршрут 2', description: 'Казань - Сочи' },
-        { id: 3, name: 'Маршрут 3', description: 'Екатеринбург - Новосибирск' },
-      ],
+      items: [],
     }
+  },
+
+  methods: {
+    editItem(item: IBus) {
+      this.$router.push({ name: 'bus-edit', params: { busIdParam: item.id } })
+    },
+
+    deleteItem(item: IBus) {
+      console.log('Удалить:', item)
+    },
+
+    async load() {
+      const response = await busesApi.getBuses()
+      this.items = response.data
+    },
+  },
+
+  mounted() {
+    this.load()
   },
 }
 </script>
-
-<style scoped>
-/* Добавьте стили по необходимости */
-</style>

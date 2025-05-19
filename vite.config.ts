@@ -13,4 +13,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/server': {
+        target: 'https://localhost:7214', // Адрес вашего ASP.NET сервера
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/server/, ''),
+      },
+    },
+  },
 })

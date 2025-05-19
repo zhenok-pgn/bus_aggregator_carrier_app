@@ -11,29 +11,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/modules/auth/stores/auth'
 
-const username = ref('')
-const password = ref('')
+const username = ref(null)
+const password = ref(null)
 const router = useRouter()
 const authStore = useAuthStore()
 
+const goBack = () => {
+  router.push('/') // Возврат на предыдущую страницу
+}
+
 const login = async () => {
-  try {
-    // Simulate an API call to get the token
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username: username.value, password: password.value }),
-    })
-    const data = await response.json()
-    authStore.setAccessToken(data)
-    router.push('/')
-  } catch (error) {
-    alert('Неверный логин или пароль')
+  if (!username.value || !password.value) {
+    return // Проверка на пустые поля
   }
+
+  authStore.login(username.value, password.value).then(() => {
+    goBack()
+  })
 }
 </script>
 

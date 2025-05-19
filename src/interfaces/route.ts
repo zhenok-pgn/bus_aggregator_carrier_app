@@ -1,139 +1,133 @@
-import type { ICarrier } from './carrier'
-import type { IBaseObject } from './baseObject'
-
-export const periodicity = [
-  { id: 1, name: 'Ежедневно' },
-  { id: 2, name: 'По числам' },
-  { id: 3, name: 'По дням недели' },
-]
-
-export const daysOfWeek = [
-  { id: 1, name: 'Понедельник' },
-  { id: 2, name: 'Вторник' },
-  { id: 3, name: 'Среда' },
-  { id: 4, name: 'Четверг' },
-  { id: 5, name: 'Пятница' },
-  { id: 6, name: 'Суббота' },
-  { id: 7, name: 'Воскресенье' },
-]
-
-export const seatingType = [
-  { id: 1, name: 'Свободная рассадка' },
-  { id: 2, name: 'Есть выбор мест' },
-]
+import type { ICarrier } from '../modules/organization/interfaces/carrier'
+import type { IBaseObject } from '../utils/baseObject'
+import type { ILocality } from './locality'
+import { DateOnly, TimeOnly } from '@/utils/dateTime'
+import { useAuthStore } from '@/modules/auth/stores/auth'
 
 //Короткая информация
-export interface IRouteSummary {
-  id: number
+export interface IRouteSummary extends IBaseObject {
   name: string
-  number: number
-  /*stopsCount: number
-  tarffisCount: number
-  schedulesCount: number
-  travelTimeInMinutes: number
-  distanceInKm: number*/
+  number: string
+  registrationNumber: string
+  carrierId: string
 }
 
-//Полная информация
-export interface IRouteNew extends IBaseObject {
-  name: string
-  number: number
-  carrier: ICarrier
-  stops: RouteStop[]
-  tariffs: Tariff[]
-  schedules: RouteSchedule[]
+/*export class Route implements IRoute {
+  id: string = crypto.randomUUID()
+  name: string = ''
+  number: string = ''
+  registrationNumber: string = ''
+  carrierId: string = ''
+  routeSchedules: IRouteSchedule[] = []
+
+  constructor(init?: Partial<Route>) {
+    Object.assign(this, init)
+  }
+}*/
+
+export interface IRoute extends IBaseObject, IRouteSummary {
+  routeSchedules: IRouteSchedule[]
 }
 
-export interface IRouteExisted extends IBaseObject {
-  id: number
-  name: string
-  number: number
-  carrier: ICarrier
-  stops: RouteStop[]
-  tariffs: Tariff[]
-  schedules: RouteSchedule[]
-}
-
-export interface IRouteStopNew extends IBaseObject {
-  busStop: BusStop
-  boardingTimeInMinutes: number
-  travelTimeInMinutes: number
-  distanceInKm: number
+export interface IRouteStop {
+  busStop: IBusStop
+  departureTime: string
+  arrivalTime: string
+  arrivalDayNumber: number
   order: number
 }
 
-export interface IRouteStopExisted extends IBaseObject {
-  id: number
-  busStop: BusStop
-  boardingTimeInMinutes: number
-  travelTimeInMinutes: number
-  distanceInKm: number
-  order: number
+export interface IRouteSegment extends IBaseObject {
+  from: IBusStop
+  to: IBusStop
 }
 
-export interface ISegmentPriceNew extends IBaseObject {
-  from: RouteStop
-  to: RouteStop
+export interface IRouteSegmentSchedule extends IBaseObject {
+  segmentNumber: string
+  routeSegment: IRouteSegment
+  departureTime: string
+  arrivalTime: string
+  arrivalDayNumber: number
   price: number
 }
 
-export interface ISegmentPriceExisted extends IBaseObject {
-  id: number
-  from: RouteStop
-  to: RouteStop
-  price: number
-}
-
-export interface IBusStopNew extends IBaseObject {
+export interface IBusStop extends IBaseObject {
   name: string
+  address: string
+  latitude: number
+  longitude: number
+  locality: ILocality
 }
 
-export interface IBusStopExisted extends IBaseObject {
-  id: number
-  name: string
+export interface IRouteSchedule extends IBaseObject {
+  schedulePattern: ISchedulePattern
+  departureTime: string
+  routeSegmentSchedules: IRouteSegmentSchedule[]
 }
 
-export interface IRouteScheduleNew extends IBaseObject {
-  tariff: Tariff
-  startDate: Date
-  endDate: Date
-  periodicity: number
-  departureTimes: string[]
-  daysOfWeek: number[]
-  startWith: Date
-  interval: number
-  baseSeatingPlan: string
-  seatingType: number
+export interface IRouteScheduleSummary extends IBaseObject {
+  startDate: string
+  endDate: string
+  daysOfWeek: number
+  departureTime: string
+  route: IRouteSummary
 }
 
-export interface IRouteScheduleExisted extends IBaseObject {
-  id: number
-  tariff: Tariff
-  startDate: Date
-  endDate: Date
-  periodicity: number
-  departureTimes: string[]
-  daysOfWeek: number[]
-  startWith: Date
-  interval: number
-  baseSeatingPlan: string
-  seatingType: number
+export interface ISchedulePattern extends IBaseObject {
+  startDate: string
+  endDate: string
+  daysOfWeek: number
 }
 
-export interface ITariffNew extends IBaseObject {
-  name: string
-  prices: SegmentPrice[]
+export const createBusStop = (order: number): IRouteStop => {
+  return {
+    busStop: {
+      id: crypto.randomUUID(),
+      name: '',
+      address: '',
+      latitude: 0,
+      longitude: 0,
+      locality: {
+        id: crypto.randomUUID(),
+        name: '',
+        osmId: '',
+        region: '',
+        country: '',
+        district: '',
+        timezone: '',
+        offsetMinutes: 0,
+      },
+    },
+    departureTime: new TimeOnly().toString(),
+    arrivalTime: new TimeOnly().toString(),
+    arrivalDayNumber: 0,
+    order: order,
+  }
 }
 
-export interface ITariffExisted extends IBaseObject {
-  id: number
-  name: string
-  prices: SegmentPrice[]
+export const createRouteSchedule = (): IRouteSchedule => {
+  {
+    return {
+      id: crypto.randomUUID(),
+      schedulePattern: {
+        id: crypto.randomUUID(),
+        startDate: new DateOnly().toString(),
+        endDate: new DateOnly().toString(),
+        daysOfWeek: 0,
+      },
+      departureTime: new TimeOnly().toString(),
+      routeSegmentSchedules: [],
+    }
+  }
 }
 
-export type Route = IRouteNew | IRouteExisted
-export type RouteStop = IRouteStopNew | IRouteStopExisted
-export type BusStop = IBusStopNew | IBusStopExisted
-export type RouteSchedule = IRouteScheduleNew | IRouteScheduleExisted
-export type Tariff = ITariffNew | ITariffExisted
-export type SegmentPrice = ISegmentPriceNew | ISegmentPriceExisted
+export const createRoute = (): IRoute => {
+  return {
+    id: crypto.randomUUID(),
+    name: '',
+    number: '',
+    registrationNumber: '',
+    carrierId: useAuthStore().user.id,
+    routeSchedules: [],
+  }
+}

@@ -2,8 +2,8 @@
   <v-container>
     <v-card class="mx-auto" max-width="800">
       <!-- Заголовок -->
-      <v-card-title class="text-h5">
-        Редактирование рейса Москва — Санкт-Петербург. Отправление 30.03.2025 в 12:20 ч.
+      <v-card-title class="text-h5" v-if="trip">
+        {{ trip.route.name }}
       </v-card-title>
 
       <v-card-text>
@@ -80,7 +80,6 @@
       <!-- Кнопки действий -->
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn variant="outlined" color="grey" class="mr-2" @click="cancelHandler">Отмена</v-btn>
         <v-btn color="primary" @click="saveHandler">Сохранить изменения</v-btn>
       </v-card-actions>
     </v-card>
@@ -89,6 +88,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import type { ITrip } from '../interfaces/trip'
+import { tripsApi } from '../api/tripsApi'
 
 export default defineComponent({
   name: 'TripEditView',
@@ -99,13 +100,20 @@ export default defineComponent({
     },
   },
 
+  data() {
+    return {
+      trip: null as null | ITrip,
+    }
+  },
+
   methods: {
     saveHandler() {
       this.$router.push({ name: 'trips-list' })
     },
-    cancelHandler() {
-      this.$router.push({ name: 'trips-list' })
-    },
+  },
+
+  async mounted() {
+    this.trip = (await tripsApi.getTripById(this.tripIdParam)).data
   },
 })
 </script>

@@ -24,28 +24,53 @@
 </template>
 
 <script lang="ts">
+import { driversApi } from '../../api/transportApi'
+
 export default {
   name: 'DriversListView',
   data() {
     return {
       headers: [
-        { title: 'ID', key: 'id' },
-        { title: 'Название', key: 'name' },
-        { title: 'Гос.номер', key: 'description' },
+        { title: 'Табельный номер', key: 'employeeNumber' },
+        { title: 'ФИО', key: 'name' },
+        { title: 'Дата рождения', key: 'dayOfBirth' },
         { title: 'Действия', key: 'actions', sortable: false },
       ],
 
       // Данные таблицы
-      items: [
-        { id: 1, name: 'Маршрут 1', description: 'Москва - СПб' },
-        { id: 2, name: 'Маршрут 2', description: 'Казань - Сочи' },
-        { id: 3, name: 'Маршрут 3', description: 'Екатеринбург - Новосибирск' },
-      ],
+      items: [] as {
+        id: number
+        employeeNumber: string
+        name: string
+        dayOfBirth: string
+      }[],
     }
+  },
+
+  methods: {
+    editItem(item: { id: number; employeeNumber: string; name: string; dayOfBirth: string }) {
+      this.$router.push({ name: 'driver-edit', params: { driverIdParam: item.id } })
+    },
+
+    deleteItem(item: { id: number; employeeNumber: string; name: string; dayOfBirth: string }) {
+      console.log('Удалить:', item)
+    },
+
+    async load() {
+      const response = await driversApi.getDrivers()
+      this.items = response.data.map((driver) => {
+        return {
+          id: driver.id,
+          employeeNumber: driver.employeeNumber,
+          name: `${driver.surname} ${driver.name} ${driver.patronymic}`,
+          dayOfBirth: driver.dayOfBirth,
+        }
+      })
+    },
+  },
+
+  mounted() {
+    this.load()
   },
 }
 </script>
-
-<style scoped>
-/* Добавьте стили по необходимости */
-</style>

@@ -1,8 +1,8 @@
-import type { ISelectedAddress } from './ISelectedAddress'
+import type { IMapPlace } from './IMapPlace'
 
 export interface ITripSearchRequest {
-  from: ISelectedAddress
-  to: ISelectedAddress
+  from: IMapPlace
+  to: IMapPlace
   passangersCount: number
   date: string
 }

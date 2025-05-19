@@ -25,15 +25,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useRoutesStore } from '../stores/routes'
-import { mapState, mapActions } from 'pinia'
+import { useRouteStore } from '../stores/routes'
 import { generateNumericId } from '@/utils/idGenerator'
 import type { IRouteSummary } from '@/interfaces/route'
+import { routesApi } from '../api/routesApi'
 
 export default defineComponent({
   name: 'RoutesListView',
   data() {
     return {
+      routeStore: useRouteStore(),
+      routes: [] as IRouteSummary[],
       headers: [
         { title: '№', key: 'number' },
         { title: 'Название', key: 'name' },
@@ -42,15 +44,12 @@ export default defineComponent({
     }
   },
 
-  computed: {
+  /*computed: {
     // 📌 Доступ к состоянию из Pinia
     ...mapState(useRoutesStore, ['routes']),
-  },
+  },*/
 
   methods: {
-    // 📌 Доступ к экшену загрузки маршрутов
-    ...mapActions(useRoutesStore, ['setRoutes']),
-
     generateId() {
       return generateNumericId()
     },
@@ -59,7 +58,10 @@ export default defineComponent({
       this.$router.push({ name: 'edit-route', params: { routeIdParam: item.id } })
     },
 
-    async fetchRoutes() {
+    deleteItem(item: IRouteSummary) {
+      console.log('Удалить маршрут:', item)
+    },
+    /*async fetchRoutes() {
       try {
         //const response = await fetch('/api/routes')
         //const data = await response.json()
@@ -86,16 +88,17 @@ export default defineComponent({
       } catch (error) {
         console.error('Ошибка загрузки маршрутов:', error)
       }
+    },*/
+
+    async loadRoutes() {
+      this.routeStore.clearRoute()
+      const response = await routesApi.getRoutes()
+      this.routes = response.data
     },
   },
 
   mounted() {
-    this.fetchRoutes() // Загружаем маршруты при монтировании
-  },
-
-  unmounted() {
-    useRoutesStore().$dispose() // Очищаем хранилище
-    console.log('RoutesView unmounted')
+    this.loadRoutes() // Загружаем маршруты при монтировании
   },
 })
 </script>
