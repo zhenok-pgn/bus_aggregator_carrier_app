@@ -10,7 +10,7 @@ const routes = [
       {
         path: '',
         component: () => import('../modules/organization/views/OrganizationView.vue'),
-        meta: { pageHeader: 'Организация' },
+        meta: { pageHeader: 'Информация о перевозчике' },
       },
       {
         path: '/trips',

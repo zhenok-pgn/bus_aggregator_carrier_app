@@ -20,6 +20,20 @@ export interface ITripPlanRequest {
   toPlanning: string
 }
 
+export const TripStatusLocale: Record<string, string> = {
+  Cancelled: 'Отменён',
+  Scheduled: 'Запланирован',
+  InProgress: 'В пути',
+  Finished: 'Завершён',
+}
+
+export const TripStatusColor: Record<string, string> = {
+  Cancelled: 'red',
+  Scheduled: 'grey',
+  InProgress: 'orange',
+  Finished: 'green',
+}
+
 export const createTripPlanRequest = () => {
   return {
     routeScheduleId: '',

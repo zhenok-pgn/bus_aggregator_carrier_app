@@ -99,6 +99,7 @@ export const useRouteStore = defineStore('curRoute', {
               ? existing?.arrivalDayNumber || 0
               : to.arrivalDayNumber,
             price: existing?.price ?? 0,
+            departureDayNumber: null,
           }
 
           updatedSchedules.push(newSchedule)

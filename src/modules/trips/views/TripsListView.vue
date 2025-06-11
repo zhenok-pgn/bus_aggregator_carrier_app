@@ -64,7 +64,7 @@
                 <v-icon small class="mr-2 grey--text text--darken-1">mdi-account-tie</v-icon>
                 <span class="text-subtitle-2">
                   <span class="grey--text text--darken-1">Водитель:</span>
-                  <strong class="ml-1">{{ trip.driver.surname || 'не назначен' }}</strong>
+                  <strong class="ml-1">{{ getDriverInfo(trip.driver) || 'не назначен' }}</strong>
                 </span>
               </div>
 
@@ -72,7 +72,7 @@
                 <v-icon small class="mr-2 grey--text text--darken-1">mdi-bus</v-icon>
                 <span class="text-subtitle-2">
                   <span class="grey--text text--darken-1">Автобус:</span>
-                  <strong class="ml-1">{{ trip.bus.model || 'не назначен' }}</strong>
+                  <strong class="ml-1">{{ getBusInfo(trip.bus) || 'не назначен' }}</strong>
                 </span>
               </div>
             </div>
@@ -80,16 +80,8 @@
 
           <!-- Статус -->
           <v-col cols="12" sm="2" class="pt-3 pt-sm-0 text-sm-right">
-            <v-chip
-              small
-              :color="trip.available ? 'green lighten-4' : 'red lighten-4'"
-              :text-color="trip.available ? 'green darken-2' : 'red darken-2'"
-              class="px-3 font-weight-medium"
-            >
-              <v-icon left small>
-                {{ trip.available ? 'mdi-check-circle' : 'mdi-close-circle' }}
-              </v-icon>
-              {{ trip.available ? 'Свободна' : 'Занята' }}
+            <v-chip small :color="getTripStatusColor(trip)" class="px-3 font-weight-medium">
+              {{ getTripStatusName(trip) }}
             </v-chip>
           </v-col>
         </v-row>
@@ -104,7 +96,8 @@ import { type IRouteSummary } from '@/interfaces/route'
 import { routesApi } from '@/modules/routes/api/routesApi'
 import { DateOnly } from '@/utils/dateTime'
 import { tripsApi } from '../api/tripsApi'
-import type { ITrip } from '../interfaces/trip'
+import { TripStatusColor, TripStatusLocale, type ITrip } from '../interfaces/trip'
+import type { IBus, IDriver } from '@/modules/transport/interfaces/transport'
 
 export default defineComponent({
   name: 'TripsView',
@@ -123,8 +116,25 @@ export default defineComponent({
     async filter() {
       this.filteredTrips = (await tripsApi.getTrips(this.filterOptions)).data
     },
+
     editTrip(id: string) {
       this.$router.push({ name: 'edit-trip', params: { tripIdParam: id } })
+    },
+
+    getTripStatusName(trip: ITrip) {
+      return TripStatusLocale[trip.tripStatus]
+    },
+
+    getTripStatusColor(trip: ITrip) {
+      return TripStatusColor[trip.tripStatus]
+    },
+
+    getDriverInfo(driver: IDriver) {
+      return `${driver.surname} ${driver.name[0]}.${driver.patronymic[0]}.`
+    },
+
+    getBusInfo(bus: IBus) {
+      return `${bus.model} (${bus.stateNumber})`
     },
   },
   async mounted() {

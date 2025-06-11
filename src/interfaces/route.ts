@@ -48,6 +48,7 @@ export interface IRouteSegmentSchedule extends IBaseObject {
   departureTime: string
   arrivalTime: string
   arrivalDayNumber: number
+  departureDayNumber: number | null
   price: number
 }
 
@@ -88,9 +89,8 @@ export const createBusStop = (order: number): IRouteStop => {
       latitude: 0,
       longitude: 0,
       locality: {
-        id: crypto.randomUUID(),
+        id: '',
         name: '',
-        osmId: '',
         region: '',
         country: '',
         district: '',

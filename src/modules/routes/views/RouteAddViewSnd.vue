@@ -80,6 +80,7 @@ async function saveRoute() {
   if (props.routeIdParam) {
     await routesApi.updateRoute(props.routeIdParam, routeStore.route)
   } else {
+    console.log('Creating new route:', routeStore.route)
     await routesApi.createRoute(routeStore.route)
   }
   router.push({ name: 'routes-list' })

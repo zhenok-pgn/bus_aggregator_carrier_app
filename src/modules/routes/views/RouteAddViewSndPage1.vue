@@ -151,7 +151,7 @@ const onAddressSelected = async (address: IMapPlace) => {
     locality: {
       ...updatedStops[curEditStopIndex.value].busStop.locality,
       name: address.settlement.name,
-      osmId: address.settlement.id,
+      id: address.settlement.id,
       region: address.settlement.region,
       country: address.settlement.country,
       district: address.settlement.district,

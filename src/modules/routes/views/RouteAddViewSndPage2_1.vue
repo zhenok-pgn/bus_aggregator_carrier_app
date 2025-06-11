@@ -47,7 +47,7 @@
           <v-card-title class="d-flex align-center">
             <v-icon class="me-2">mdi-map-marker</v-icon>
             <span>{{
-              `${stop.busStop.locality.name}${stop.busStop.name ? ',' + stop.busStop.name : ''}`
+              `${stop.busStop.locality.name}${stop.busStop.name ? ', ' + stop.busStop.name : ''}`
             }}</span>
           </v-card-title>
         </v-col>

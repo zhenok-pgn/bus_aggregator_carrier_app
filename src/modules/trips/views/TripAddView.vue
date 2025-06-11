@@ -46,14 +46,30 @@
             outlined
             dense
             required
-          />
+          >
+            <!-- слот для кастомного отображения элементов -->
+            <template #item="{ item, props }">
+              <v-list-item v-bind="props">
+                <v-list-item-subtitle>
+                  {{ `№${item.raw.number}` }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </template>
+
+            <!-- Слот no-data -->
+            <template #no-data>
+              <v-list-item>
+                <v-list-item-title>{{ `Ничего не найдено` }}</v-list-item-title>
+              </v-list-item>
+            </template>
+          </v-autocomplete>
         </v-col>
 
         <v-col v-if="selectedRouteId" cols="12">
           <v-autocomplete
             v-model="tripPlanRequest!.routeScheduleId"
             :items="filteredSchedules"
-            item-title="startDate"
+            item-title="departureTime"
             item-value="id"
             label="Выберите расписание"
             clearable
@@ -62,7 +78,23 @@
             outlined
             dense
             required
-          />
+          >
+            <!-- слот для кастомного отображения элементов -->
+            <template #item="{ item, props }">
+              <v-list-item v-bind="props">
+                <v-list-item-subtitle>
+                  {{ `${item.raw.startDate} - ${item.raw.endDate}` }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </template>
+
+            <!-- Слот no-data -->
+            <template #no-data>
+              <v-list-item>
+                <v-list-item-title>{{ `Ничего не найдено` }}</v-list-item-title>
+              </v-list-item>
+            </template>
+          </v-autocomplete>
         </v-col>
 
         <v-col v-if="tripPlanRequest?.routeScheduleId" cols="12">
@@ -78,14 +110,30 @@
             outlined
             dense
             required
-          />
+          >
+            <!-- слот для кастомного отображения элементов -->
+            <template #item="{ item, props }">
+              <v-list-item v-bind="props">
+                <v-list-item-subtitle>
+                  {{ `${item.raw.stateNumber}, ${item.raw.seats.length} мест` }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </template>
+
+            <!-- Слот no-data -->
+            <template #no-data>
+              <v-list-item>
+                <v-list-item-title>{{ `Ничего не найдено` }}</v-list-item-title>
+              </v-list-item>
+            </template>
+          </v-autocomplete>
         </v-col>
 
         <v-col v-if="tripPlanRequest?.routeScheduleId" cols="12">
           <v-autocomplete
             v-model="tripPlanRequest!.driverId"
             :items="drivers"
-            item-title="name"
+            item-title="employeeNumber"
             item-value="id"
             label="Выберите водителя"
             clearable
@@ -94,7 +142,23 @@
             outlined
             dense
             required
-          />
+          >
+            <!-- слот для кастомного отображения элементов -->
+            <template #item="{ item, props }">
+              <v-list-item v-bind="props">
+                <v-list-item-subtitle>
+                  {{ `${item.raw.surname} ${item.raw.name} ${item.raw.patronymic}` }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </template>
+
+            <!-- Слот no-data -->
+            <template #no-data>
+              <v-list-item>
+                <v-list-item-title>{{ `Ничего не найдено` }}</v-list-item-title>
+              </v-list-item>
+            </template>
+          </v-autocomplete>
         </v-col>
       </v-row>
       <v-row class="mt-4">

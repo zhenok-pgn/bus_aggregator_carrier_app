@@ -24,15 +24,14 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async logout() {
-      try {
-        await authApi.logout()
-      } catch (error) {
-        // Игнорируем ошибку выхода
-      } finally {
-        this.accessToken = ''
-        this.user = null
-        this.isAuthenticated = false
-      }
+      authApi
+        .logout()
+        .catch(() => {})
+        .finally(() => {
+          this.accessToken = ''
+          this.user = null
+          this.isAuthenticated = false
+        })
     },
   },
   persist: true,

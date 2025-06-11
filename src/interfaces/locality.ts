@@ -5,7 +5,6 @@ export interface ILocality extends IBaseObject {
   region: string
   country: string
   district: string
-  osmId: string
   timezone: string
   offsetMinutes: number
 }
